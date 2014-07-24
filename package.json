@@ -1,0 +1,17 @@
+{
+  "name": "humanapi-example-app",
+  "version": "0.0.1",
+  "private": true,
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "ejs": "0.8.x",
+    "express": "3.0.x",
+    "moment": "^2.7.0",
+    "passport": "0.1.x",
+    "passport-humanapi": "0.1.x",
+    "passport-oauth": "0.1.x"
+  }
+}

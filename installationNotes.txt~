@@ -1,0 +1,14 @@
+Install Mongo db
+
+use ethWearable
+
+Data Base Name ethWearable
+db.createCollection('users')
+
+npm install mongojs
+
+localhost
+
+npm install mongoose
+
+

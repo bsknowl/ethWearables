@@ -1,0 +1,2 @@
+stream id = userid/endpoint(eg. activities)/source( biking /running ) 
+data ( json object ) - stringify..

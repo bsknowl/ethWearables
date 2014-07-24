@@ -1,0 +1,70 @@
+module.exports = {
+    writeJSONToDeviceCloud : function ( healthDataType, healthData, callback)
+    var https = require('https');
+    /**
+     *  Construct the Data Point Object for the device Cloud
+     *  If there is a single item a single data point, if there
+     *  are multiple, then list of data points..
+     */
+
+    console.info('Input DataType :\t' + healthDataType) ;
+
+//Current Time Stamp
+var lastUpdateTs = { 'lastDataRetrievalTime' : curTimeMinusFive};
+
+//Get Last retrived timestamp from the database
+
+//var path = '/v1/apps/' + HUMANAPI_APP_ID + '/users/activities/summaries' + '&updated_since=' + curTimeMinusFive ; 
+//var path = '/v1/apps/' + HUMANAPI_APP_ID + '/users/activities/summaries' ;
+var path = '/v1/apps/' + HUMANAPI_APP_ID + '/users/' ;
+
+var dataItems = ['activities/summaries', 'activities', 'heart_rates', 'bmis', 'body_fats', 'heights', 'weights', 'blood_glucoses', 'blood_oxygens', 'sleeps', 'blood_presures', 'genetic_traits', 'locations' ];
+
+
+var postheaders = {
+    'Accept': 'application/json'
+};
+
+var optionsget = { 
+    auth : '96df20174a8f47178519f08cd49153b8f221b1bc:',
+    host : 'api.humanapi.co', // here only the domain name
+    port : 443,
+    //path : '/v1/apps/3e098d19e42de61584e1bac7ff321a7385edd094/users/activities/summaries', // the rest of the url with parameters if needed
+    path : path,
+    method : 'GET', // do GET
+    headers : postheaders // do GET
+};
+ 
+
+//Get all the items...
+for ( item in dataItems ) {
+    optionsget["path"] = path + dataItems[item] ;
+    console.info('Options prepared:');
+    console.info(optionsget);
+    console.info('Do the GET call');
+ 
+    // do the GET request
+    var reqGet = https.request(optionsget, function(res) {
+        console.log("statusCode: ", res.statusCode);
+        // uncomment it for header details
+        //  console.log("headers: ", res.headers);
+ 
+ 
+        res.on('data', function(d) {
+        	//Store last retrieval timestamp in database Database and 
+            console.info('GET result:\n');
+            process.stdout.write(d);
+	    
+            console.info('\n\nCall completed');
+        });
+ 
+    });
+ 
+    reqGet.end();
+    reqGet.on('error', function(e) {
+        console.error(e);
+    });
+    }
+}
+};
+

@@ -1,0 +1,26 @@
+Install Mongo db
+
+use ethWearable
+
+Data Base Name ethWearable
+db.createCollection('users')
+db.createCollection('runStats')
+
+npm install mongojs
+
+localhost
+
+npm install mongoose
+
+
+show collections;
+show databases
+
+
+TO CONFIGURE THE CANVAS APP TO POINT TO HEROKU, GET THE CONSUMER SECRET AND TYPE
+heroku config:set SF_CANVASAPP_CLIENT_SECRET=<CONSUMER SECRET>
+
+
+
+TO STOP SCHEDULED PROCESS
+heroku ps:stop <process id from heroku ps>

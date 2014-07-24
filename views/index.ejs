@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Connect Your Health Device Data : </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet">
+    <link href="css/pages/login.css" rel="stylesheet">
+
+    <script src='https://connect.humanapi.co/connect.js'></script>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+  </head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">
+		
+			<!-- HAMBURGER MENU
+			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</a>  --> 
+			
+			<a class="brand" href="/">Connect Your Health Device Data</a>
+			<div class="nav-collapse">
+				<ul class="nav pull-right">
+					<a class="brand"></a>
+				</ul>
+			</div> <!-- /nav-collapse -->
+		</div> <!-- /container -->
+	</div> <!-- /navbar-inner -->
+</div> <!-- /navbar -->
+
+
+<div id="login-container">
+	<div id="login-content" class="clearfix">
+		<h4>Welcome <% if (canvasDetails) { %>  <%= canvasDetails.context.user.firstName %> <%= canvasDetails.context.user.lastName %> <% } %>  </h4>
+	<p style="font-size:11px;">Click the <b>Get Started</b> button below to complete the secure, one-time set up linking your wearable device health data to Digi/Etherios via <a href="http://humanapi.co">human/api</a>. Be sure you have setup an account with your wearable device manufacturer.
+	<br/>
+	
+	<center> <img src="/img/login.png" alt="Profile" width="300" height="100" /> </center>
+	<br/>
+	
+	<p style="font-size:11px;">All you need to do is click the <b>Connect</b> button and follow the steps below to get tracking! <br/>
+		<p style="font-size:11px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1.&nbsp; Select your <b>Health Device</b> <!--Log in or create Human API account -->
+		<p style="font-size:11px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.&nbsp; Log in to your health tracking provider <!-- Select the health data that you would like to track -->
+		<p style="font-size:11px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3.&nbsp; Click <b>Add More Devices</b> if you would like to add another device <!-- Select your health tracking device <i>(ie: Fitbit Flex)</i>-->
+		<p style="font-size:11px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.&nbsp; Click <b>Finish</b> when you have added all of your health devices <!-- Log in to your health tracking provider to grant access to Human API-->
+<!--		<p style="font-size:11px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.&nbsp; Click "Go Back to Front Page" -->
+<!--		<p style="font-size:11px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6.&nbsp; Log back in to Human API -->
+<!--		<p style="font-size:11px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7.&nbsp; Click the <b>Grant Access</b> button at the bottom of the page  -->
+		<p style="font-size:11px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.&nbsp; Congratulations! Your health data is now being tracked in Salesforce!
+		<br/>
+	<p style="font-size:11px;"> You can also modify your device access permissions at any time by clicking the <b>Connect</b> button below.
+		
+<!-- We use <a href="http://humanapi.co">human/api</a> to securely stream health data to Etherios. It's a really simple process which is totally secure. Just click below to get started. --></p>
+	<br/>
+
+  <center> 
+	<!-- OLD HUMAN API LOGIN BUTTON  
+	<span class="humanAPIAuthButton" data-target="auth/humanapi" data-window-height="700"></span>
+	<script src="humanAuth.min.js"></script>
+	-->
+	 <img id='connect-health-data-btn' src='/img/blue.png' width='180px'/> 
+  </center>
+
+</div>
+
+
+
+<style>
+	/* so the dropdown is visible */
+	.modal { overflow: visible; }
+	.modal-body { overflow-y: visible; }
+</style>
+
+
+<script src="js/jquery-1.7.2.min.js"></script>
+<script src="js/bootstrap.js"></script>
+
+<script type="text/javascript">
+//<!-- >>>>>>> e8a3c3a1ff3db6be7b76489e8796a0252e335aa3 -->
+var connectBtn = document.getElementById('connect-health-data-btn');
+//	$(document).ready(function() {
+//	var x = JSON.parse('<%-JSON.stringify(canvasDetails)%>');
+      //  alert(x.context.user.email);  // now JS variable 'x' has the uid that's passed from the node backend.
+//    });
+connectBtn.addEventListener('click', function(e) {
+	var x = JSON.parse('<%-JSON.stringify(canvasDetails)%>');
+//	alert(x.context.user.email);
+	var options = {
+clientUserId: x.context.user.email,  
+clientId: '1b48204992f90084cc751b37a6c8f97ee676f2fe', // grab it from app settings page
+//clientId: '18817818cfbc68f54d0ee93a04288c4023949ab5',
+  finish: function(err, sessionTokenObject) {
+	sessionTokenObject['clientSecret'] = '7a8cce328d5134ec4a31e7cfd174baa77ecc90f1';
+//	alert(sessionTokenObject.humanId);
+    // callback that would be called after user finishes connecting her health data
+    // you need to post `sessionTokenObject` to your server
+    // append `clientSecret` to it and send it to our server.
+    // sending POST request with jQuery might look like this.
+    // NOTE: it's not necessary to use jQuery
+    $.post('/connect/finish', sessionTokenObject, function(res){
+		
+    });
+  },
+  close: function(){
+	}
+}
+HumanConnect.open(options);
+});
+</script> 
+  </body>
+</html>
