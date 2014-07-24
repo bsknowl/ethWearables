@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 human/api expressjs app
 =======================
 
@@ -15,3 +16,7 @@ Instructions
 ### Run the app
 
     $ node app.js
+=======
+ethWearables
+============
+>>>>>>> 63b7ca8b8082801267c0303cc6c12787faf897fb
